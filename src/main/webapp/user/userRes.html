@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>新增用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../build/css/main.css">
+    <style>
+        .center {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 20px;
+            position: absolute;
+            height: 35%;
+            left: 45%;
+            top: 20%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mandatory {
+            color: #d14e4e;
+            padding-right: 3px;
+        }
+
+        .radio {
+            border-width: 0px;
+            margin-top: 10px;
+            font-family: '微软雅黑';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 14px;
+            color: #999999;
+            float: left;
+        }
+        .hidden{
+            display: none;
+        }
+        input:-webkit-autofill {
+            //去掉谷歌输入框黄色背景
+            transition:background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <form class="layui-form">
+            <input type="hidden" id="id" th:value="${id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="mandatory">*</span>账号：</label>
+            <div class="layui-input-inline">
+                <input type="text" id="account" name="account" lay-verify="account" value="" placeholder="请输入账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="mandatory">*</span>密码：</label>
+            <div class="layui-input-inline">
+                <input type="password" id="password" name="password" lay-verify="password" value="" placeholder="请输入密码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="mandatory">*</span>姓名：</label>
+            <div class="layui-input-inline">
+                <input type="text" id="userName" name="userName" lay-verify="userName" placeholder="请输入姓名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="mandatory">*</span>用户角色：</label>
+            <div class="layui-input-block" id="ra">
+                <input type="radio" name="radio1" lay-filter="radio1" style="display: none" value="1" title="管理员">
+                <input type="radio" name="radio1" class="radio1" lay-filter="radio1" style="display: none" value="2" title="普通用户">
+                <input type="hidden" name="roleId"  value="" id="roleId" lay-verify="roleId">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="mandatory">*</span>状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="radio2" lay-filter="radio2" style="display: none" value="1" title="可用">
+                <input type="radio" name="radio2" lay-filter="radio2" style="display: none" value="0" title="禁用">
+                <input type="hidden" name="status" value="" id="status" lay-verify="status">
+            </div>
+        </div>
+        <div class="layui-form-item" style="width:100px; height:36px; text-align: center; margin:30px 0 0 100px;">
+            <button class="layui-btn" style="padding: 0 25px; height: 36px; line-height: 28px;"
+                    lay-submit="lay-submit" lay-filter="handleForm">保存
+            </button>
+        </div>
+        </form>
+    </div>
+<script src="../build/js/jquery.min.js"></script>
+<script src="../plugins/layui/layui.js"></script>
+<script src="../js/user/userRes.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: '../plugins/layui/'
+    }).use(['hand','list']); //加载入口
+</script>
+</body>
+
+</html>

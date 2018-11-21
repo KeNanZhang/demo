@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>app版本上传ios</title>
+	<script src="../../plugins/layui_1.0.9/layui.js"></script>
+	<script src="../../build/js/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="../../plugins/layui_1.0.9/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../plugins/common/public.css">
+
+	<script src="../../js/version/api/appInfoIos.js"></script>
+<script type="text/javascript">
+    layui.config({ 
+        base: '/js/util/'  //你的模块目录
+    }).use(['hand','list']); //加载入口
+</script>
+	<style>
+    	 .icon{
+    	   		margin: auto;
+    	   		margin-top: 20%;
+	   		 	z-index: 2;
+			    padding: 1%;
+			    width: 45%;
+			    border-radius: 17.54%;
+			    background-color: #fff;
+    	 }
+    	 li{
+    	 		height:5%;
+	      		margin-left: 35%;
+	    		font-family: d_icomoon!important;
+			    speak: none;
+			    font-style: normal;
+			    font-weight: 400;
+			    font-variant: normal;
+			    text-transform: none;
+			    line-height: 1;
+			    -webkit-font-smoothing: antialiased;
+    	 }
+    	 span{
+    	       color:black;
+    	       font-size:50px;
+    	 }
+	    .downButton{
+	        width: 36%;
+	    	height: 80px;
+	    	font-size:35px;
+	    	font-weight:bold;
+	    	display: block;
+    		margin: 0 auto;
+	    }
+	    .layui-input-inline{
+		    display: flex;
+		    justify-content: center;
+		    align-items: Center;
+	    }
+	    .message{
+		    display:none;
+		    color: #009fa0;
+		    width: 100%;
+		    text-align: center;
+	    }
+	    .updateLog{
+		    font-size:55px;
+		    display: flex;
+		    justify-content: center;
+		    align-items: Center;
+		    font-weight:bold;
+	    }
+	</style>
+</head>
+<body style="background-color: #f2f2f2;background-image: unset;">
+	<div class="icon">
+			<img src="../../build/images/appIcon.png" style="max-width: 100%;border-radius: 17.54%;"/>
+	</div>
+	<div class="appInfo">
+		<div class="layui-input-inline">
+			    <span id="appName" style="font-size:55px;font-weight:bold;"></span>
+		</div>
+		
+		<hr style="width: 45%;margin-left:29%;height: 5px;">
+		
+		<div class="layui-input-inline">
+			    <span id="versionCode" style="font-size:40px"></span>
+			    <span id="versionName" style="font-size:40px"></span>
+		</div>
+		<div class="layui-input-inline">
+				<span style="font-size:40px">更新于：</span>
+			    <span id="createTime" style="font-size:40px"></span>
+		</div>
+		<div style="margin-top:5%;">
+		        <button class="layui-btn layui-btn-small btn btn-pr publicButton downButton" id="download">点击下载 </button>
+		        <span class="message">正在安装,请点击Home键在桌面查看</span>
+		</div>
+	</div>
+	
+	<hr style="margin-top: 40%;margin-bottom: 10%;height: 5px;">
+	
+	<div class="log">
+		<span class="updateLog">更新日志</span>
+		<div class="layui-input-inline">
+			<span id="remark"></span>
+		</div>
+	</div>
+</body>
+</html>

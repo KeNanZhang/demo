@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdst.scs.dao.VersionRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zdst.scs.entity.VersionRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="projectID" property="projectID" jdbcType="BIGINT" />
+    <result column="appType" property="appType" jdbcType="TINYINT" />
+    <result column="versionFileID" property="versionFileID" jdbcType="BIGINT" />
+    <result column="versionCode" property="versionCode" jdbcType="VARCHAR" />
+    <result column="upgradeInfo" property="upgradeInfo" jdbcType="VARCHAR" />
+    <result column="lastForce" property="lastForce" jdbcType="TINYINT" />
+    <result column="uploadUserID" property="uploadUserID" jdbcType="BIGINT" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, projectID, appType, versionFileID, versionCode, upgradeInfo, lastForce, uploadUserID, 
+    createTime
+  </sql>
+  <select id="queryByProjectIdAndType" resultType="com.zdst.scs.dto.versionManage.VersionRecordDTO" >
+    select 
+    <include refid="Base_Column_List" />
+    from version_record
+    where projectID = #{projectId,jdbcType=BIGINT}
+    and appType = #{type,jdbcType=TINYINT}
+    order by createTime DESC
+  </select>
+  <select id="selectByParam" resultType="com.zdst.scs.dto.versionManage.VersionRecordDTO">
+    select
+    <include refid="Base_Column_List" />
+    from version_record
+    <where> isNew = 1
+      <if test="appType != null">
+        and appType = #{appType,jdbcType=TINYINT}
+      </if>
+    </where>
+    ORDER BY createTime DESC
+    <if test="startRow != null and pageSize != null">
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from version_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from version_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.zdst.scs.entity.VersionRecord" >
+    insert into version_record (id, projectID, appType, 
+      versionFileID, versionCode, upgradeInfo, 
+      lastForce, uploadUserID, createTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{projectID,jdbcType=BIGINT}, #{appType,jdbcType=TINYINT},
+      #{versionFileID,jdbcType=BIGINT}, #{versionCode,jdbcType=VARCHAR}, #{upgradeInfo,jdbcType=VARCHAR},
+      #{lastForce,jdbcType=TINYINT}, #{uploadUserID,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="id" parameterType="com.zdst.scs.entity.VersionRecord" >
+    insert into version_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectID != null" >
+        projectID,
+      </if>
+      <if test="appType != null" >
+        appType,
+      </if>
+      <if test="versionFileID != null" >
+        versionFileID,
+      </if>
+      <if test="versionCode != null" >
+        versionCode,
+      </if>
+      <if test="upgradeInfo != null" >
+        upgradeInfo,
+      </if>
+      <if test="lastForce != null" >
+        lastForce,
+      </if>
+      <if test="uploadUserID != null" >
+        uploadUserID,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="projectID != null" >
+        #{projectID,jdbcType=BIGINT},
+      </if>
+      <if test="appType != null" >
+        #{appType,jdbcType=TINYINT},
+      </if>
+      <if test="versionFileID != null" >
+        #{versionFileID,jdbcType=BIGINT},
+      </if>
+      <if test="versionCode != null" >
+        #{versionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeInfo != null" >
+        #{upgradeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="lastForce != null" >
+        #{lastForce,jdbcType=TINYINT},
+      </if>
+      <if test="uploadUserID != null" >
+        #{uploadUserID,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdst.scs.entity.VersionRecord" >
+    update version_record
+    <set >
+      <if test="projectID != null" >
+        projectID = #{projectID,jdbcType=BIGINT},
+      </if>
+      <if test="appType != null" >
+        appType = #{appType,jdbcType=TINYINT},
+      </if>
+      <if test="versionFileID != null" >
+        versionFileID = #{versionFileID,jdbcType=BIGINT},
+      </if>
+      <if test="versionCode != null" >
+        versionCode = #{versionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeInfo != null" >
+        upgradeInfo = #{upgradeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="lastForce != null" >
+        lastForce = #{lastForce,jdbcType=TINYINT},
+      </if>
+      <if test="uploadUserID != null" >
+        uploadUserID = #{uploadUserID,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNew != null" >
+        isNew = #{isNew,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdst.scs.entity.VersionRecord" >
+    update version_record
+    set projectID = #{projectID,jdbcType=BIGINT},
+      appType = #{appType,jdbcType=TINYINT},
+      versionFileID = #{versionFileID,jdbcType=BIGINT},
+      versionCode = #{versionCode,jdbcType=VARCHAR},
+      upgradeInfo = #{upgradeInfo,jdbcType=VARCHAR},
+      lastForce = #{lastForce,jdbcType=TINYINT},
+      uploadUserID = #{uploadUserID,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByProjectIdAndIsNew" parameterType="com.zdst.scs.entity.VersionRecord" >
+    update version_record
+    <set >
+      <if test="isNew != null" >
+        isNew = #{isNew,jdbcType=TINYINT},
+      </if>
+    </set>
+    where projectID = #{projectID,jdbcType=BIGINT} and isNew = 1 and appType = #{appType,jdbcType=TINYINT}
+  </update>
+  <delete id="deleteByProjectId" parameterType="java.lang.Long" >
+    delete from version_record
+    where projectID = #{projectId,jdbcType=BIGINT}
+  </delete>
+  <select id="validateVersion" parameterType="com.zdst.scs.dto.api.VersionParam" resultType="com.zdst.scs.dto.versionManage.VersionRecordDTO">
+    select
+      vr.id, vr.projectID, vr.appType, vr.versionFileID, vr.versionCode, vr.upgradeInfo, vr.lastForce, vr.uploadUserID,
+      vr.createTime,vf.filePath
+    from version_record vr
+    left join version_file vf on  vf.id =  vr.versionFileID
+    WHERE versionCode = (
+              select max(versionCode) from version_record
+              where projectID = (SELECT id from project where projectKey = #{projectKey,jdbcType=VARCHAR})
+                    and  appType = #{appType,jdbcType=TINYINT}
+                    and isNew = 1
+          )
+          and vr.appType = #{appType,jdbcType=TINYINT}
+          and vr.isNew = 1
+  </select>
+</mapper>

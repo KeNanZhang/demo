@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8"/>
+    <title>版本管理</title>
+	<script src="../../plugins/layui_1.0.9/layui.js"></script>
+	<script src="../../build/js/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="../../plugins/layui_1.0.9/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../plugins/common/public.css">
+
+	<script src="../../js/version/versionManage/versionList.js"></script>
+
+    <script type="text/javascript">
+        layui.config({
+            base: '/js/util/' //你的模块目录
+        }).use(['hand', 'list']); //加载入口
+    </script>
+	<style>
+	 *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            width: 100%;
+            height: 100%;
+            background-color: #00012f ;
+            background: url(../../build/images/addProjectBG.jpg) no-repeat center;
+            background-size: cover;
+        }
+    </style>
+
+</head>
+<body>
+		<div>
+			<table class="layui-table" style='table-layout:fixed;'>
+				<thead>
+				<tr class="active">
+					<th width="17%">项目名称</th>
+					<th width="17%">系统</th>
+					<th width="17%">当前版本号</th>
+					<th width="17%">提交人</th>
+					<th width="17%">更新时间</th>
+					<th width="17%">操作</th>
+				</tr>
+				</thead>
+				<tbody id="listBody">
+				</tbody>
+			</table>
+			<div id="pageDiv" class="pageBm"></div>
+		</div>
+		<script id="listReleaseScript" type="text/html">
+			{{#  layui.each(d.pageData, function(index, item){ }}
+			<tr>
+				<td>{{ item.projectName || "--"}}</td>
+				<td>
+					{{# if(item.appType == 1){ }}
+						Android
+					{{# }else{ }}
+						{{# if(item.appType == 2){ }}
+							IOS
+						{{# } }}
+					{{# } }}
+				</td>
+				{{# if(item.versionCode){ }}
+					<td data-id="{{item.id}}">
+							<a href="javascript:;"  on-click="downLoad" class="blue">{{item.versionCode}} </a>
+					</td>
+				{{# }else{ }}
+					<td>--</td>
+				{{# } }}
+
+
+				<td>{{ item.uploadUserName || "--"}}</td>
+				<td>{{ item.createTime || "--"}}</td>
+				<td data-id="{{ item.id}}">
+					<button  on-click="update"   class="btn btn-pr btn-xs version_update">更新</button>
+				</td>
+			</tr>
+			{{#  }); }}
+
+			{{#  if(d.pageData == null  || d.pageData == ""){ }}
+			<tr>
+				<td colspan="16">无数据</td>
+			</tr>
+			{{#  } }}
+		</script>
+</body>
+</html>

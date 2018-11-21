@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8"/>
+    <title>版本管理</title>
+	<script src="../../plugins/layui_1.0.9/layui.js"></script>
+	<script src="../../build/js/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="../../plugins/layui_1.0.9/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../plugins/common/public.css">
+
+	<script src="../../js/version/versionManage/updateVersion.js"></script>
+
+    <script type="text/javascript">
+        layui.config({
+            base: '/js/util/' //你的模块目录
+        }).use(['hand', 'list']); //加载入口
+    </script>
+	<style>
+	 *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+
+        }
+
+        .float-right{
+        	margin: 3px 10px 8px 1px;
+			width: 100%;
+        }
+	 .zdy-c1{
+		 width: 48%;
+		 margin-left: 2.2%;
+	 }
+    </style>
+
+</head>
+<body>
+		<div class="tab-content" id="update">
+		   <div class="" id="content" style="width: 48%;margin-left: 40%;margin-top: 10%;">
+		   		<div class="input-group input-group-sm float-right">
+			       <label class="zdy-label"><span class="start">*</span>项目名称：</label>
+			       <div class="zdy-c1" style="font-size: 18px;margin-left: 4%">
+					   <span id="name"></span>
+			       </div>
+			    </div>
+		        <div class="input-group input-group-sm float-right" style="">
+					<label class="zdy-label"><span class="start">*</span>系统：</label>
+					<div class="zdy-c1" style="font-size: 18px;margin-left: 7%;">
+						<span id="appType"></span>
+					</div>
+					<!--<div id="androidType" style="margin-left: 1%;display: none;">
+			       		<div class="input-group input-group-sm float-right">
+				       		<label class="zdy-label"><span class="start">*</span>包名：</label>
+					       	<div class="zdy-c1"  style="margin-left: 3.4%;">
+					            <input id="package" name="package" class="layui-input" type="text"/>
+					      	</div>
+				      	</div>
+					</div>-->
+		       </div> 
+		       <div class="input-group input-group-sm float-right" >
+				  <!-- <label class="zdy-label"><span class="start">*</span>系统：</label>
+				   <span id="ios"></span>-->
+			  		<div id="iosType" style="margin-left: 1%;display: none;">
+						<!-- <div class="input-group input-group-sm float-right">
+                            <label class="zdy-label"><span class="start">*</span>包名：</label>
+                            <div class="zdy-c1"  style="margin-left: 3.4%;">
+                             <input id="iosPackage" name="iosPackage" class="layui-input" type="text"/>
+                           </div>
+                     </div>-->
+					    <div class="input-group input-group-sm float-right">
+					      	<label class="zdy-label"><span class="start">*</span>plist地址：</label>
+					       	<div class="zdy-c1"  style="margin-left: 3.4%;">
+								<span id="plistFileName" style="margin-left:16px;font-size: 14px; "></span>
+							</div>
+				      	</div>
+			   		</div>
+		       </div>
+			   <div class="input-group input-group-sm float-right">
+				   <label class="zdy-label"><span class="start">*</span>安装包：</label>
+				   <div class="zdy-c1"  style="margin-left: 3.4%;">
+					   <span id="fileName" style="margin-left:16px;font-size: 14px; "></span>
+					   <input id="app" type="file" name="file" class="layui-upload-file" lay-title="上传安装包" />
+				   </div>
+			   </div>
+			   <div class="input-group input-group-sm float-right">
+				   <label class="zdy-label"><span class="start">*</span>包名：</label>
+				   <div class="zdy-c1" style="margin-left: 3.4%;">
+					   <input id="package" name="package" class="layui-input" type="text"/>				   </div>
+			   </div>
+			   <div class="input-group input-group-sm float-right">
+				   <label class="zdy-label"><span class="start">*</span>版本号：</label>
+				   <div class="zdy-c1">
+					   <input id="versionCode" name="versionCode" class="layui-input" type="text"/>
+				   </div>
+			   </div>
+			   <div class="input-group input-group-sm float-right">
+				   <label class="zdy-label"><span class="start">*</span>版本说明：</label>
+				   <div class="zdy-c1" style="margin-left: 1%;">
+					   <textarea id="upgradeInfo" class="layui-textarea" rows="10%" cols="50%"></textarea >
+				   </div>
+			   </div>
+			   <div class="input-group input-group-sm float-right">
+				   <label class="zdy-label"><span class="start">*</span>提交人：</label>
+				   <div class="zdy-c1">
+					   <span id="updateUserName" style="margin-left:16px;font-size: 14px; "></span>
+				   </div>
+			   </div>
+		   </div>
+		    <div class="layui-form-item" style="" id="handle">
+				<div class="" style="text-align: center;">
+						<button class="btn btn-pr btn-sm hiddenPlus publicButton"
+							style="padding: 0 20px;" 
+							id="cancel">取消</button>
+						<button class="btn btn-pr btn-sm hiddenPlus publicButton"
+							style="padding: 0 20px;"  id="next">下一步</button>
+				</div>
+			</div>
+	    </div>
+
+			<div id="release" class="layui-input-block" style="display: none;">
+				<form class="layui-form">
+					<ul>
+						<li>
+							<dl>
+								<dd>
+									<input name="force" value="0" title="自动升级"  type="radio">
+								</dd>
+								<dd>
+									<input name="force" value="1" title="强制升级" type="radio"><span>谨慎选择！</span>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</form>
+				<div class="layui-form-item" style="" id="chose">
+					<div class="" style="text-align: center;">
+						<button class="btn btn-pr btn-sm hiddenPlus publicButton"
+								style="padding: 0 20px;"
+								id="back">返回上一步</button>
+						<button class="btn btn-pr btn-sm hiddenPlus publicButton"
+								style="padding: 0 20px;"  id="confirm">确定</button>
+					</div>
+				</div>
+			</div>
+</body>
+</html>

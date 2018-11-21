@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>用户列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../plugins/layui_1.0.9/css/layui.css" media="all">
+    <link rel="stylesheet" href="../build/css/main.css">
+    <script src="../plugins/layui_1.0.9/layui.js"></script>
+    <script src="../build/js/jquery.min.js"></script>
+
+
+    <script src="../js/user/listUser.js"></script>
+    <script type="text/javascript">
+        layui.config({
+            base: '../js/util/' //你的模块目录
+        }).use(['hand', 'list']); //加载入口
+    </script>
+    <style>
+        .btn-l {
+            display: inline-block;
+            padding: .3em .5em;
+            background-image: linear-gradient(#8eb349, #5f7c22);
+            border: 1px solid rgba(0,0,0,.2);
+            border-radius: .3em;
+            box-shadow: 0 1px white inset;
+            text-align: center;
+            text-shadow: 0 1px 1px black;
+            color:white;
+            font-weight: bold;
+        }
+        .btn-l:active{
+            box-shadow: .05em .1em .2em rgba(0,0,0,.6) inset;
+            border-color: rgba(0,0,0,.3);
+            background: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+<div class="content"  id="main">
+    <div class="intelTable" id="intelTbl_aTotal">
+        <div class="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="account" name="account" v-model="account" placeholder="请输入账号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline"><button class="layui-btn" id="search">搜索</button></div>
+                <div class="layui-inline"><button class="layui-btn" id="insert">新增</button></div>
+            </div>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr  class="active">
+                    <th>序号</th>
+                    <th>账号名</th>
+                    <th>姓名</th>
+                    <th>用户角色</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="listBody">
+            </tbody>
+        </table>
+        <div style="text-align:center;" id="pageDiv" class="pageBm"></div>
+    </div>
+        <script  id="listScript" type="text/html">
+            {{#  layui.each(d.pageData, function(index, item){ }}
+            <tr>
+                <td>{{ ++index}}</td>
+                <td class="table-wit">{{ item.account || "--"}}</td>
+                <td class="table-wit">{{ item.userName || "--"}}</td>
+                <td>{{ item.roleName || "--"}}</td>
+                {{# if(item.status == 1){ }}
+                    <td>可用</td>
+                {{# }else if(item.status == 0){ }}
+                    <td>禁用</td>
+                {{# }}}
+                <td>{{ layui.laytpl.toDateString(item.createTime) || "--"}}</td>
+                <td data-id="{{ item.id }}">
+                    <button on-click="update" class="layui-btn">修改</button>
+                    <button on-click="delete" class="layui-btn">删除</button>
+                    <button on-click="forbidden" class="layui-btn">禁用</button>
+                </td>
+            </tr>
+            {{#  }); }}
+            {{#  if(d.pageData == null  || d.pageData == ""){ }}
+            <tr><td colspan="6">无数据</td></tr>
+            {{#  } }}
+        </script>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8"/>
+    <title>版本管理</title>
+	<script src="../../plugins/layui_1.0.9/layui.js"></script>
+	<script src="../../build/js/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="../../plugins/layui_1.0.9/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../plugins/common/public.css">
+
+	<script src="../../js/version/projectManage/projectList.js"></script>
+
+    <script type="text/javascript">
+        layui.config({
+            base: '/js/util/' //你的模块目录
+        }).use(['hand', 'list']); //加载入口
+    </script>
+	<style>
+	 *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            width: 100%;
+            height: 100%;
+            background-color: #00012f ;
+            background: url(../../build/images/addProjectBG.jpg) no-repeat center;
+            background-size: cover;
+        }
+    </style>
+
+</head>
+<body>
+<form class="layui-form">
+	<div class="searchL trainSearch" style="display: none;">
+		<div class="clearF">
+			<div class="float-left">
+				<label class="zdy-label">项目名称 ： </label>
+				<div class="zdy-c1">
+					<input type="text" id="name" placeholder="精确搜索" class="layui-input"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<span class="float-right" style="float: initial;margin-left: 91%;">
+		<button type="button" id="add" class="btn btn-pr btn-sm publicButton">
+			<i class="zdIco add"></i> 新增
+		</button>
+	</span>
+</form>
+		<div>
+			<table class="layui-table" style='table-layout:fixed;'>
+				<thead>
+				<tr class="active">
+					<th width="14%">项目ID</th>
+					<th width="14%">项目名称</th>
+					<th width="14%">项目key</th>
+					<th width="14%">安卓</th>
+					<th width="14%">IOS</th>
+					<th width="14%">创建时间</th>
+					<th width="14%">操作</th>
+				</tr>
+				</thead>
+				<tbody id="listBody">
+				</tbody>
+			</table>
+			<div id="pageDiv" class="pageBm"></div>
+		</div>
+		<script id="listReleaseScript" type="text/html">
+			{{#  layui.each(d.pageData, function(index, item){ }}
+			<tr>
+				<td>{{ item.id || "--"}}</td>
+				<td data-id="{{item.id}}">
+					<a href="javascript:;"  on-click="detail" class="blue">{{item.name}} </a>
+				</td>
+
+				<td>{{ item.projectKey || "--"}}</td>
+				<td>
+					{{# if(item.isAndroid == 1){ }}
+						有
+					{{# }else{ }}
+						无
+					{{# } }}
+				</td>
+				<td>
+					{{# if(item.isIOS == 1){ }}
+						有
+					{{# }else{ }}
+						无
+					{{# } }}
+				</td>
+				<td>{{ item.createTime || "--"}}</td>
+				<td data-id="{{ item.id}}">
+					<!--<button  on-click="updateVersion"   class="btn btn-pr btn-xs version_update">更新版本</button>-->
+					<button  on-click="editMethod"   class="btn btn-pr btn-xs project_update">修改</button>
+					{{# if(item.versionRecordID != null | item.iosVersionRecordID != null){ }}
+						<button  on-click="deleteMethod"   class="btn btn-pr btn-xs project_delete"  disabled="disabled">删除</button>
+					{{# }else{ }}
+						<button  on-click="deleteMethod"   class="btn btn-pr btn-xs project_delete">删除</button>
+					{{# } }}
+				</td>
+			</tr>
+			{{#  }); }}
+
+			{{#  if(d.pageData == null  || d.pageData == ""){ }}
+			<tr>
+				<td colspan="16">无数据</td>
+			</tr>
+			{{#  } }}
+		</script>
+</body>
+</html>

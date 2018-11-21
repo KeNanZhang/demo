@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8"/>
+    <title>版本管理</title>
+	<script src="../../plugins/layui_1.0.9/layui.js"></script>
+	<script src="../../build/js/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="../../plugins/layui_1.0.9/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../plugins/common/public.css">
+
+	<script src="../../js/version/projectManage/projectDetail.js"></script>
+
+    <script type="text/javascript">
+        layui.config({
+            base: '/js/util/' //你的模块目录
+        }).use(['hand', 'list']); //加载入口
+    </script>
+	<style>
+	 *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+			background-image: unset;
+			background-color: #f2f2f2;
+        }
+	 .content{
+		 margin-left: 2%;
+	 }
+	 .layui-nav-tree {
+		 width: 106px;
+		 padding: 0;
+	 }
+	 .layui-nav{
+		 background-color: #fff;
+	 }
+	 .layui-nav .layui-nav-item a{
+		color:#333;
+	}
+	 .layui-nav-tree .layui-this{
+		 background-color: #00a7d3;
+	 }
+    </style>
+</head>
+<body>
+
+<div class="layui-tab" style="width: 12%;background-color: #fff;margin-left: 8%;height: 60%;">
+	<div class="layui-tab" lay-filter="demo" style="margin-left: 14%;">
+		<ul class="layui-tab-title">
+			<li id="an" class="layui-nav-item" style="font-size:18px;color: black;">android</li>
+			<li id="ios" class="layui-nav-item" style="font-size:18px;color: black;">ios</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show" style="font-size: 14px;margin-top: 15%;">
+					<ul class="layui-nav layui-nav-tree" lay-filter="android">
+						<li class="layui-nav-item layui-nav-itemed">
+							<dl class="layui-nav-child">
+								<dd><a href="javaScript:;" id="androidMsg">项目信息</a></dd>
+								<dd><a href="javaScript:;" id="androidVersion">版本记录</a></dd>
+							</dl>
+						</li>
+					</ul>
+			</div>
+			<div class="layui-tab-item" style="font-size: 14px;margin-top: 15%;">
+				<ul class="layui-nav layui-nav-tree" lay-filter="ios">
+					<li class="layui-nav-item layui-nav-itemed">
+						<dl class="layui-nav-child">
+							<dd><a href="javaScript:;" id="iosMsg">项目信息2</a></dd>
+							<dd><a href="javaScript:;" id="iosVersion">版本记录2</a></dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!--安卓右侧页面-->
+<div id="android" style="height:auto;display:none;margin: -30.8% 0 0 24%;">
+	<div id="msg" style="width: 55%;">
+		<div id="top" style="background-color: #fff">
+			<div class="content">
+				<span id="name" style="font-size: 18px;color: #0C0C0C;"></span><br>
+				<div style="width: 40%;white-space:normal; word-break:break-all;font-size: 14px;color: #0C0C0C;">
+					<span id="description"></span>
+				</div>
+			</div>
+		</div>
+		<div id="content" style="background-color: #fff;height:515px;margin-top: 1%;font-size: 14px;color: #0C0C0C;">
+			<div class="content">
+				<span>项目信息</span><br><br>
+			</div>
+			<div class="content" style="margin-left: 3%;">
+				<span>项目ID：</span><span id="projectId"></span><br>
+				<span>项目key：</span><span id="projectKey"></span><br>
+				<span>创建人：</span><span id="createUser"></span><br>
+				<span>创建日期：</span><span id="createTime"></span>
+			</div>
+		</div>
+	</div>
+	<div id="version"  style="color: black;font-size: 14px;">
+		<div id="versionTop" style="background-color: #fff">
+			<div class="content">
+				<span id="versionName" style="font-size: 18px;"></span><br>
+				<div style="width: 40%;white-space:normal; word-break:break-all;font-size: 14px;">
+					<span id="versionDescription"></span>
+				</div>
+			</div>
+		</div>
+		<div style="background-color: #fff">
+			<div class="content" style="margin-top: 2%;">
+				<span>版本记录</span><br><br>
+			</div>
+			<ul id="record">
+
+			</ul>
+		</div>
+	</div>
+
+</div>
+<script id="recordList" type="text/html">
+	{{#  layui.each(d, function(index, item){ }}
+	<li style="margin-top: 2%;">
+		<div class="left" style="width: 20%;">
+			<dl>
+				<dd><span>版本:</span>{{item.versionCode}}</dd>
+				<dd>{{ item.createTime}}</dd>
+			</dl>
+		</div>
+		<div class="right" style="margin-left: 19%;margin-top: -3%;width: 40%;white-space: normal;word-break: break-all;">
+			<dl >
+				<dd>{{ item.projectName}}</dd>
+				<dd>{{ item.description}}</dd>
+				<dd>{{ item.upgradeInfo}}</dd>
+			</dl>
+		</div>
+	</li>
+	{{#  }); }}
+</script>
+<!--ios右侧页面-->
+<div id="iosContent" style="height:auto;display:none;margin: -30.8% 0 0 24%;">
+	<div id="msg2" style="width: 55%;">
+		<div id="top2" style="background-color: #fff">
+			<div class="content">
+				<span id="name2" style="font-size: 18px;color: #0C0C0C;"></span><br>
+				<div style="width: 40%;white-space:normal; word-break:break-all;font-size: 14px;color: #0C0C0C;">
+					<span id="description2"></span>
+				</div>
+			</div>
+		</div>
+		<div id="content2" style="background-color: #fff;height:515px;margin-top: 1%;font-size: 14px;color: #0C0C0C;">
+			<div class="content">
+				<span>项目信息</span><br><br>
+			</div>
+			<div class="content" style="margin-left: 3%;">
+				<span>项目ID：</span><span id="projectId2"></span><br>
+				<span>项目key：</span><span id="projectKey2"></span><br>
+				<span>创建人：</span><span id="createUser2"></span><br>
+				<span>创建日期：</span><span id="createTime2"></span>
+			</div>
+		</div>
+	</div>
+	<div id="version2"  style="color: black;font-size: 14px;">
+		<div id="versionTop2" style="background-color: #fff">
+			<div class="content">
+				<span id="versionName2" style="font-size: 18px;"></span><br>
+				<div style="width: 40%;white-space:normal; word-break:break-all;font-size: 14px;">
+					<span id="versionDescription2"></span>
+				</div>
+			</div>
+		</div>
+		<div style="background-color: #fff">
+			<div class="content" style="margin-top: 2%;">
+				<span>版本记录</span><br><br>
+			</div>
+			<ul id="record2" >
+
+			</ul>
+		</div>
+	</div>
+
+</div>
+<script id="recordList2" type="text/html">
+	{{#  layui.each(d, function(index, item){ }}
+	<li style="margin-top: 2%;">
+		<div class="left" style="width: 20%;">
+			<dl>
+				<dd><span>版本:</span>{{item.versionCode}}</dd>
+				<dd>{{ item.createTime}}</dd>
+			</dl>
+		</div>
+		<div class="right" style="margin-left: 19%;margin-top: -3%;width: 40%;white-space: normal;word-break: break-all;">
+			<dl >
+				<dd>{{ item.projectName}}</dd>
+				<dd>{{ item.description}}</dd>
+				<dd>{{ item.upgradeInfo}}</dd>
+			</dl>
+		</div>
+	</li>
+	{{#  }); }}
+	{{#  if(d == null  || d == ""){ }}
+	<tr>
+		<td colspan="11">无数据</td>
+	</tr>
+	{{#  } }}
+</script>
+</body>
+</html>

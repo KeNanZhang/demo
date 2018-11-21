@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdst.scs.dao.UserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zdst.scs.entity.UserRole" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="userID" property="userid" jdbcType="BIGINT" />
+    <result column="roleID" property="roleid" jdbcType="BIGINT" />
+    <result column="createUserID" property="createuserid" jdbcType="BIGINT" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userID, roleID, createUserID, createTime
+  </sql>
+  <select id="userRoleList" resultType="com.zdst.scs.dto.UserRoleDto" parameterType="com.zdst.scs.dto.UserRoleParamDto" >
+    select ur.id,usr.account,usr.name userName,usr.password,
+        re.name roleName,usr.status,usr.createTime from user_role ur
+      inner join role re
+        on ur.roleID=re.id
+      inner join user usr
+       on usr.id=ur.userID
+       where 1=1
+      <if test="account != null">
+         and usr.account like CONCAT('%', #{account}, '%')
+      </if>
+       ORDER BY createTime DESC
+      <if test="startRow != null and pageSize != null">
+        limit #{startRow} , #{pageSize}
+      </if>
+  </select>
+  <select id="userRoleCount" resultType="int" parameterType="com.zdst.scs.dto.UserRoleParamDto" >
+    select  count(*) from user_role ur
+    inner join role re
+    on ur.roleID=re.id
+    inner join user usr
+    on usr.id=ur.userID
+    where 1=1
+    <if test="account != null">
+       and usr.account like CONCAT('%', #{account}, '%')
+    </if>
+    <if test="startRow != null and pageSize != null">
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectUserRoleKey" resultType="com.zdst.scs.dto.UserRoleDto" parameterType="java.lang.Long" >
+    select usr.account,usr.name userName,usr.password,ur.roleId,
+    re.name roleName,usr.status,usr.createTime from user_role ur
+    inner join role re
+    on ur.roleID=re.id
+    inner join user usr
+    on usr.id=ur.userID
+    where 1=1
+    and ur.id = #{id}
+  </select>
+  <select id="selectUserRoleUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from user_role
+    where userID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zdst.scs.entity.UserRole" >
+    insert into user_role (id, userID, roleID, 
+      createUserID, createTime)
+    values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{roleid,jdbcType=BIGINT}, 
+      #{createuserid,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zdst.scs.entity.UserRole" >
+    insert into user_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="roleid != null" >
+        roleID,
+      </if>
+      <if test="createuserid != null" >
+        createUserID,
+      </if>
+        createTime,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=BIGINT},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=BIGINT},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.zdst.scs.entity.UserRole" >
+    update user_role
+    <set >
+      <if test="userid != null" >
+        userID = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="roleid != null" >
+        roleID = #{roleid,jdbcType=BIGINT},
+      </if>
+      <if test="createuserid != null" >
+        createUserID = #{createuserid,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdst.scs.entity.UserRole" >
+    update user_role
+    set userID = #{userid,jdbcType=BIGINT},
+      roleID = #{roleid,jdbcType=BIGINT},
+      createUserID = #{createuserid,jdbcType=BIGINT},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
